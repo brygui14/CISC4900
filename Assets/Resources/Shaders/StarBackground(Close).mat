@@ -32,15 +32,15 @@ Material:
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
     m_Floats:
-    - _Brightness: 1
+    - _Brightness: 1.2
     - _BrightnessPower: 1
-    - _BrightnessVariationScale: 0.05
-    - _OverallScale: 5
+    - _BrightnessVariationScale: 0.1
+    - _OverallScale: 1
     - _Randomness: 5
     - _Rotation: 0
-    - _StarsScale: 20
+    - _StarsScale: 15
     - _Threshold: 0.95
     m_Colors:
-    - _Color: {r: 1, g: 1, b: 1, a: 1}
+    - _Color: {r: 0.98378396, g: 1, b: 0.8537736, a: 1}
     - _Offset: {r: 0, g: 0, b: 0, a: 0}
   m_BuildTextureStacks: []
