@@ -8,10 +8,13 @@ public class PlayerRigidBody : MonoBehaviour
     public Animator anim;
 
     float error, output, screenHalfWorldUnits;
-    public float speed = 1500f;
+    public float acceleration = 1500f;
+    private float speedMultiplier = 5;
     public float maxSpeed;
     public float maxAngleSpeed = 20;
-    private PID rotateController;
+
+    private bool isColliding;
+
     Vector2 move;
     Rigidbody2D body;
     // Start is called before the first frame update
@@ -28,16 +31,16 @@ public class PlayerRigidBody : MonoBehaviour
         float orthogrpahicSize = Camera.main.orthographicSize;
 
         screenHalfWorldUnits = aspectRatio * orthogrpahicSize + playerHalfWidth;
-        rotateController = gameObject.GetComponent<PID>();
         body = GetComponent<Rigidbody2D>();
         
     }
 
      void FixedUpdate() { 
 
-        movePlayer();
+       
         projectRayCast();
         BoundaryCheck(screenHalfWorldUnits);
+        movePlayer();
                
     }
 
@@ -45,6 +48,18 @@ public class PlayerRigidBody : MonoBehaviour
     void Update()
     {
         move = new Vector2(Input.GetAxisRaw("Horizontal"),  Input.GetAxisRaw("Vertical"));
+        
+        if (Input.GetKey("space") & !isColliding){
+            maxSpeed = 4 * 2.5f;
+            // Debug.Log(maxSpeed);
+        }
+        else{
+            maxSpeed = 4;
+            // Debug.Log(maxSpeed);
+        }
+        
+        
+        
     }
 
     void activateShield(){
@@ -56,9 +71,20 @@ public class PlayerRigidBody : MonoBehaviour
          if(body.velocity.magnitude > maxSpeed)
          {
                 body.velocity = body.velocity.normalized * maxSpeed;
+                // Debug.Log("Speed to Great: " + body.velocity);
          }
-         
-         body.AddForce(move * speed * Time.deltaTime);
+
+        
+        if (isColliding){
+            // maxSpeed = 4 * 2.5f;
+            body.AddForce(move * acceleration * speedMultiplier * Time.fixedDeltaTime);
+            print("Colliding Force: " + move * acceleration * speedMultiplier * Time.fixedDeltaTime);
+        }
+        else{
+            // maxSpeed = 4;
+            body.AddForce(move * acceleration * Time.fixedDeltaTime);
+        }
+        // body.AddForce(move * acceleration * Time.fixedDeltaTime);
     }
 
     void projectRayCast(){
@@ -93,6 +119,12 @@ public class PlayerRigidBody : MonoBehaviour
 
         if (shortestDist < 2.5){
             activateShield();
+            if (shortestDist <= 1){
+                isColliding = true;
+            }
+            else{
+                isColliding = false;
+            }
         }
         
         // Debug.DrawLine(transform.position, rays[distIndex + 1].point, Color.magenta);
