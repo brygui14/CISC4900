@@ -7,17 +7,16 @@ public class PlayerRigidBody : MonoBehaviour
 
     public Animator anim;
 
-    float error, output, screenHalfWorldUnits;
-    public float acceleration = 1500f;
+    private float screenHalfWorldUnits;
+    private float acceleration = 1500f;
     private float speedMultiplier = 5;
-    public float maxSpeed;
-    public float maxAngleSpeed = 20;
+    private float maxSpeed;
+    private float speed = 4;
 
     private bool isColliding;
 
     Vector2 move;
     Rigidbody2D body;
-    // Start is called before the first frame update
 
     RaycastHit2D[] rays = new RaycastHit2D[90];
     
@@ -25,12 +24,8 @@ public class PlayerRigidBody : MonoBehaviour
     void Awake(){
         
         anim = gameObject.GetComponent<Animator>();
-
         float playerHalfWidth = transform.localScale.x / 8f;
-        float aspectRatio = Camera.main.aspect;
-        float orthogrpahicSize = Camera.main.orthographicSize;
-
-        screenHalfWorldUnits = aspectRatio * orthogrpahicSize + playerHalfWidth;
+        screenHalfWorldUnits = Camera.main.aspect * Camera.main.orthographicSize + playerHalfWidth;
         body = GetComponent<Rigidbody2D>();
         
     }
@@ -50,11 +45,11 @@ public class PlayerRigidBody : MonoBehaviour
         move = new Vector2(Input.GetAxisRaw("Horizontal"),  Input.GetAxisRaw("Vertical"));
         
         if (Input.GetKey("space") & !isColliding){
-            maxSpeed = 4 * 2.5f;
+            maxSpeed = speed * 2.5f;
             // Debug.Log(maxSpeed);
         }
         else{
-            maxSpeed = 4;
+            maxSpeed = speed;
             // Debug.Log(maxSpeed);
         }
         
@@ -76,12 +71,10 @@ public class PlayerRigidBody : MonoBehaviour
 
         
         if (isColliding){
-            // maxSpeed = 4 * 2.5f;
             body.AddForce(move * acceleration * speedMultiplier * Time.fixedDeltaTime);
-            print("Colliding Force: " + move * acceleration * speedMultiplier * Time.fixedDeltaTime);
+            // Debug.Log("Colliding Force: " + move * acceleration * speedMultiplier * Time.fixedDeltaTime);
         }
         else{
-            // maxSpeed = 4;
             body.AddForce(move * acceleration * Time.fixedDeltaTime);
         }
         // body.AddForce(move * acceleration * Time.fixedDeltaTime);
