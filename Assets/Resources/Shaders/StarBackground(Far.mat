@@ -7,7 +7,7 @@ Material:
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_Name: StarBackground
+  m_Name: StarBackground(Far
   m_Shader: {fileID: -6465566751694194690, guid: 9b7ab5fed4b4347b5bb3c17b68e16212, type: 3}
   m_ShaderKeywords: 
   m_LightmapFlags: 4
@@ -32,10 +32,10 @@ Material:
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
     m_Floats:
-    - _Brightness: 1.3
+    - _Brightness: 0.5
     - _BrightnessPower: 1
     - _BrightnessVariationScale: 0.2
-    - _OverallScale: 5
+    - _OverallScale: 2
     - _Randomness: 5
     - _Rotation: 0
     - _StarsScale: 10

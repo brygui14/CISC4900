@@ -39,7 +39,7 @@ public class PlayerRigidBody : MonoBehaviour
                
     }
 
-    // Update is called once per frame
+    
     void Update()
     {
         move = new Vector2(Input.GetAxisRaw("Horizontal"),  Input.GetAxisRaw("Vertical"));
