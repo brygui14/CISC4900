@@ -5,6 +5,9 @@ TagManager:
   serializedVersion: 2
   tags:
   - Asteroids
+  - Play_Button
+  - Options_Button
+  - Quit_Button
   layers:
   - Default
   - TransparentFX
