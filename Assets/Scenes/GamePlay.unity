@@ -439,7 +439,7 @@ GameObject:
   - component: {fileID: 1315230455}
   - component: {fileID: 1315230454}
   m_Layer: 0
-  m_Name: SpawnManager
+  m_Name: Asteroid Spawn Manager
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -635,15 +635,19 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 1989043727453956021, guid: 71e6f240ec94549c29933feaf70d8b12, type: 3}
       propertyPath: m_Enabled
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 1989043727453956021, guid: 71e6f240ec94549c29933feaf70d8b12, type: 3}
       propertyPath: m_Materials.Array.data[0]
       value: 
+      objectReference: {fileID: 2100000, guid: adc3ec6cdf19f4001baf965eb5d3e4c3, type: 2}
+    - target: {fileID: 1989043727453956021, guid: 71e6f240ec94549c29933feaf70d8b12, type: 3}
+      propertyPath: m_Positions.Array.data[1].x
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 1989043727453956021, guid: 71e6f240ec94549c29933feaf70d8b12, type: 3}
       propertyPath: m_Positions.Array.data[1].y
-      value: 0
+      value: 10
       objectReference: {fileID: 0}
     - target: {fileID: 1989043727502023079, guid: 71e6f240ec94549c29933feaf70d8b12, type: 3}
       propertyPath: m_LocalPosition.x

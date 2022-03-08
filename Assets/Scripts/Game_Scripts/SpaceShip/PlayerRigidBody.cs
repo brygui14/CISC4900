@@ -8,10 +8,11 @@ public class PlayerRigidBody : MonoBehaviour
     public Animator anim;
 
     private float screenHalfWorldUnits;
-    private float acceleration = 1500f;
-    private float speedMultiplier = 5;
+    // private float acceleration = 1500f;
+    private float acceleration = 75f;
+    private float speedMultiplier = 2;
     private float maxSpeed;
-    private float speed = 4;
+    private float speed = 5;
 
     private bool isColliding;
 
@@ -43,8 +44,11 @@ public class PlayerRigidBody : MonoBehaviour
     void Update()
     {
         move = new Vector2(Input.GetAxisRaw("Horizontal"),  Input.GetAxisRaw("Vertical"));
+
+        
         
         if (Input.GetKey("space") & !isColliding){
+            
             maxSpeed = speed * 2.5f;
             // Debug.Log(maxSpeed);
         }
@@ -71,11 +75,11 @@ public class PlayerRigidBody : MonoBehaviour
 
         
         if (isColliding){
-            body.AddForce(move * acceleration * speedMultiplier * Time.fixedDeltaTime);
+            body.AddForce(move * acceleration * speedMultiplier * Time.fixedDeltaTime, ForceMode2D.Impulse);
             // Debug.Log("Colliding Force: " + move * acceleration * speedMultiplier * Time.fixedDeltaTime);
         }
         else{
-            body.AddForce(move * acceleration * Time.fixedDeltaTime);
+            body.AddForce(move * acceleration * Time.fixedDeltaTime, ForceMode2D.Impulse);
         }
         // body.AddForce(move * acceleration * Time.fixedDeltaTime);
     }

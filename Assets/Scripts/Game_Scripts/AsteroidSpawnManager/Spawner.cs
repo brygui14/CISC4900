@@ -25,12 +25,12 @@ public class Spawner : MonoBehaviour
         nextTime = Time.time + timeToSpawn;
         initalizeDict();
 
-        string temp = astreoidLevels["Beginner"][0];
-        GameObject obj = Resources.Load<GameObject>(temp);
+        // string temp = astreoidLevels["Beginner"][0];
+        // GameObject obj = Resources.Load<GameObject>(temp);
 
-        print(obj);
+        // print(obj);
 
-        print(temp);
+        // print(temp);
     }
 
     // Update is called once per frame
