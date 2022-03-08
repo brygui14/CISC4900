@@ -5,11 +5,12 @@ using UnityEngine;
 public class SpawnAsteroidMenu : MonoBehaviour
 {
     
-    Transform tmp;
     GameObject spawnObject;
-    public float timeToSpawn = 1f;
+    public float timeToSpawn = .25f;
     float nextTime;
     Vector2 screenHalfWorldUnits;
+    List<GameObject> spawns = new List<GameObject>();
+
    
     void Start()
     {
@@ -22,30 +23,38 @@ public class SpawnAsteroidMenu : MonoBehaviour
             nextTime = Time.time + timeToSpawn;
             dropSquare();
         }
+        destroyObjects();
     }
 
+    void destroyObjects()
+    {
+        for (int i = 0; i < spawns.Count; i++){
+            if (spawns[i].transform.position.y < -screenHalfWorldUnits.y - spawns[i].transform.localScale.y)
+            {
+                Destroy(spawns[i]);
+                spawns.RemoveAt(i);
+            }
+        }  
+    }
 
     void dropSquare()
     {
-        Vector2 position = new Vector2(Random.Range(-screenHalfWorldUnits.x, screenHalfWorldUnits.x), screenHalfWorldUnits.y + transform.localScale.y);
-        spawnObject = Resources.Load("PreFabs/Asteroids/AsterHuge1") as GameObject;
-        // GameObject obj = (GameObject)Instantiate(Resources.Load<GameObject>(astreoidLevels["Beginner"][0]), position, Quaternion.identity);
-        int angle = findAngle(position, Input.mousePosition);
-        print(Input.mousePosition);
-        GameObject obj = Instantiate(spawnObject, position, Quaternion.Euler(0,0, angle));
-        // Rigidbody2D body = obj.GetComponent<Rigidbody2D>();
-        // body.AddForce(new Vector2(0,1)) 
-        print(RectTransformUtility.WorldToScreenPoint(Camera.main, obj.transform.position));
+        Vector2 position = new Vector2(Random.Range(-screenHalfWorldUnits.x, -3), screenHalfWorldUnits.y + transform.localScale.y);
+        Debug.Log(position);
+        position = RectTransformUtility.WorldToScreenPoint(Camera.main, position);
+        Debug.Log(position);
+        spawnObject = Resources.Load("PreFabs/UIAsteroid/AsterSmall1UI") as GameObject;
+        
+
+        GameObject obj = Instantiate(spawnObject, position, Quaternion.Euler(0,0, 0));
+        obj.transform.SetParent(gameObject.transform); 
         // obj.transform.position = RectTransformUtility.WorldToScreenPoint(Camera.main, obj.transform.position);
-        print(obj.transform.position);
+        Rigidbody2D asteroid = obj.GetComponent<Rigidbody2D>();
+
+        asteroid.AddForce(new Vector2(Input.mousePosition.x - position.x, Input.mousePosition.y - position.y), ForceMode2D.Impulse);
+
+        spawns.Add(obj);
+    }
+
     
-    }
-
-    int findAngle(Vector2 orgin, Vector2 point){
-        float opp = point.x - orgin.x;
-        float adj = point.y - orgin.y;
-
-        float angle = 180 - (Mathf.Rad2Deg * Mathf.Atan(opp/adj));
-        return (int)angle;
-    }
 }
