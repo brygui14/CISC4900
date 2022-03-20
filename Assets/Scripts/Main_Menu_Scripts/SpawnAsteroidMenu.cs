@@ -39,16 +39,21 @@ public class SpawnAsteroidMenu : MonoBehaviour
 
     void dropSquare()
     {
-        Vector2 position = new Vector2(Random.Range(-screenHalfWorldUnits.x, -3), screenHalfWorldUnits.y + transform.localScale.y);
+        Vector2 position = new Vector2(-screenHalfWorldUnits.x + -transform.localScale.x, screenHalfWorldUnits.y + transform.localScale.y);
+        Debug.Log(position);
+        if (Camera.main.ScreenToWorldPoint(Input.mousePosition).x > 0){
+            position.x = screenHalfWorldUnits.x + transform.localScale.x;
+        }
+        if (Camera.main.ScreenToWorldPoint(Input.mousePosition).y < 0){
+            position.y = screenHalfWorldUnits.y - 2;
+        }
         Debug.Log(position);
         position = RectTransformUtility.WorldToScreenPoint(Camera.main, position);
-        Debug.Log(position);
         spawnObject = Resources.Load("PreFabs/UIAsteroid/AsterSmall1UI") as GameObject;
         
 
         GameObject obj = Instantiate(spawnObject, position, Quaternion.Euler(0,0, 0));
         obj.transform.SetParent(gameObject.transform); 
-        // obj.transform.position = RectTransformUtility.WorldToScreenPoint(Camera.main, obj.transform.position);
         Rigidbody2D asteroid = obj.GetComponent<Rigidbody2D>();
 
         asteroid.AddForce(new Vector2(Input.mousePosition.x - position.x, Input.mousePosition.y - position.y), ForceMode2D.Impulse);
