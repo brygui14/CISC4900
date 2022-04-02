@@ -49,7 +49,7 @@ public class SpawnAsteroidMenu : MonoBehaviour
         }
         Debug.Log(position);
         position = RectTransformUtility.WorldToScreenPoint(Camera.main, position);
-        spawnObject = Resources.Load("PreFabs/UIAsteroid/AsterSmall1UI") as GameObject;
+        spawnObject = Resources.Load("PreFabs/UIAsteroid/AsterHuge1UI") as GameObject;
         
 
         GameObject obj = Instantiate(spawnObject, position, Quaternion.Euler(0,0, 0));

@@ -8,6 +8,7 @@ TagManager:
   - Play_Button
   - Options_Button
   - Quit_Button
+  - Back_Button
   layers:
   - Default
   - TransparentFX

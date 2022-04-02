@@ -9,6 +9,7 @@ public class FallingBlock : MonoBehaviour
     public float speed = 1000f;
     Rigidbody2D body;
     float screenHalfWorldUnits;
+    SpriteRenderer sr;
 
     void Awake()
     {
@@ -18,6 +19,7 @@ public class FallingBlock : MonoBehaviour
 
         screenHalfWorldUnits = aspectRatio * orthogrpahicSize + playerHalfWidth;
         body = GetComponent<Rigidbody2D>();
+        sr = gameObject.GetComponent<SpriteRenderer>(); 
     }
 
     void FixedUpdate()
@@ -26,8 +28,12 @@ public class FallingBlock : MonoBehaviour
     }
     void Update()
     {
-         move = Vector2.down;
-         BoundaryCheck(screenHalfWorldUnits);
+        move = Vector2.down;
+        BoundaryCheck(screenHalfWorldUnits);
+
+        
+
+
     }
     void BoundaryCheck(float boundaryUnit){
         // print(boundaryUnit);

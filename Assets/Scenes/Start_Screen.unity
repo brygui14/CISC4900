@@ -226,7 +226,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 1, y: 1}
-  m_AnchoredPosition: {x: 0, y: -110}
+  m_AnchoredPosition: {x: 0, y: -235}
   m_SizeDelta: {x: 160, y: 30}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &376705498
@@ -275,7 +275,7 @@ BoxCollider2D:
   m_IsTrigger: 0
   m_UsedByEffector: 0
   m_UsedByComposite: 0
-  m_Offset: {x: -3.976822, y: 0.4637909}
+  m_Offset: {x: -5.238098, y: 0.88420105}
   m_SpriteTilingProperty:
     border: {x: 0, y: 0, z: 0, w: 0}
     pivot: {x: 0, y: 0}
@@ -286,7 +286,7 @@ BoxCollider2D:
     adaptiveTiling: 0
   m_AutoTiling: 0
   serializedVersion: 2
-  m_Size: {x: 99.46591, y: 27.528778}
+  m_Size: {x: 189.43433, y: 51.91278}
   m_EdgeRadius: 0
 --- !u!114 &376705501
 MonoBehaviour:
@@ -337,8 +337,8 @@ MonoBehaviour:
   m_faceColor:
     serializedVersion: 2
     rgba: 4294967295
-  m_fontSize: 64
-  m_fontSizeBase: 64
+  m_fontSize: 120
+  m_fontSizeBase: 120
   m_fontWeight: 400
   m_enableAutoSizing: 0
   m_fontSizeMin: 18
@@ -429,7 +429,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 1, y: 1}
-  m_AnchoredPosition: {x: 0, y: 110}
+  m_AnchoredPosition: {x: 0, y: 230}
   m_SizeDelta: {x: 160, y: 30}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1830332355
@@ -478,7 +478,7 @@ BoxCollider2D:
   m_IsTrigger: 0
   m_UsedByEffector: 0
   m_UsedByComposite: 0
-  m_Offset: {x: -2.7928314, y: 0.4637909}
+  m_Offset: {x: -5.133362, y: 1.6340485}
   m_SpriteTilingProperty:
     border: {x: 0, y: 0, z: 0, w: 0}
     pivot: {x: 0, y: 0}
@@ -489,7 +489,7 @@ BoxCollider2D:
     adaptiveTiling: 0
   m_AutoTiling: 0
   serializedVersion: 2
-  m_Size: {x: 120.777985, y: 27.528778}
+  m_Size: {x: 223.76196, y: 53.27475}
   m_EdgeRadius: 0
 --- !u!114 &1830332358
 MonoBehaviour:
@@ -538,8 +538,8 @@ MonoBehaviour:
   m_faceColor:
     serializedVersion: 2
     rgba: 4294967295
-  m_fontSize: 64
-  m_fontSizeBase: 64
+  m_fontSize: 120
+  m_fontSizeBase: 120
   m_fontWeight: 400
   m_enableAutoSizing: 0
   m_fontSizeMin: 18
@@ -574,7 +574,7 @@ MonoBehaviour:
   m_VertexBufferAutoSizeReduction: 0
   m_useMaxVisibleDescender: 1
   m_pageToDisplay: 1
-  m_margin: {x: -36.842102, y: 0, z: -35.571777, w: 0}
+  m_margin: {x: -38.694824, y: 0, z: -37.45862, w: 0}
   m_isUsingLegacyAnimationComponent: 0
   m_isVolumetricText: 0
   m_hasFontAssetChanged: 0
@@ -595,6 +595,42 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 6350877006984710387, guid: f271ead51875e4b2b80d2c72d8ccbbb3, type: 3}
+      propertyPath: m_fontSize
+      value: 120
+      objectReference: {fileID: 0}
+    - target: {fileID: 6350877006984710387, guid: f271ead51875e4b2b80d2c72d8ccbbb3, type: 3}
+      propertyPath: m_margin.x
+      value: -201.73251
+      objectReference: {fileID: 0}
+    - target: {fileID: 6350877006984710387, guid: f271ead51875e4b2b80d2c72d8ccbbb3, type: 3}
+      propertyPath: m_margin.y
+      value: -25.224823
+      objectReference: {fileID: 0}
+    - target: {fileID: 6350877006984710387, guid: f271ead51875e4b2b80d2c72d8ccbbb3, type: 3}
+      propertyPath: m_margin.z
+      value: -198.60938
+      objectReference: {fileID: 0}
+    - target: {fileID: 6350877006984710387, guid: f271ead51875e4b2b80d2c72d8ccbbb3, type: 3}
+      propertyPath: m_fontSizeBase
+      value: 120
+      objectReference: {fileID: 0}
+    - target: {fileID: 6350877006984710391, guid: f271ead51875e4b2b80d2c72d8ccbbb3, type: 3}
+      propertyPath: m_Size.x
+      value: 367.36163
+      objectReference: {fileID: 0}
+    - target: {fileID: 6350877006984710391, guid: f271ead51875e4b2b80d2c72d8ccbbb3, type: 3}
+      propertyPath: m_Size.y
+      value: 55.276093
+      objectReference: {fileID: 0}
+    - target: {fileID: 6350877006984710391, guid: f271ead51875e4b2b80d2c72d8ccbbb3, type: 3}
+      propertyPath: m_Offset.x
+      value: -6.1253967
+      objectReference: {fileID: 0}
+    - target: {fileID: 6350877006984710391, guid: f271ead51875e4b2b80d2c72d8ccbbb3, type: 3}
+      propertyPath: m_Offset.y
+      value: 14.337448
+      objectReference: {fileID: 0}
     - target: {fileID: 6350877007260151425, guid: f271ead51875e4b2b80d2c72d8ccbbb3, type: 3}
       propertyPath: m_Name
       value: Canvas
@@ -736,9 +772,45 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 8589331479918599203, guid: c522eacff944e41b0a720605d87acc70, type: 3}
+      propertyPath: far clip plane
+      value: 10
+      objectReference: {fileID: 0}
+    - target: {fileID: 8589331479918599203, guid: c522eacff944e41b0a720605d87acc70, type: 3}
+      propertyPath: near clip plane
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8589331479918599203, guid: c522eacff944e41b0a720605d87acc70, type: 3}
+      propertyPath: orthographic size
+      value: 10
+      objectReference: {fileID: 0}
     - target: {fileID: 8589331479918599205, guid: c522eacff944e41b0a720605d87acc70, type: 3}
       propertyPath: m_Name
       value: Main Camera
+      objectReference: {fileID: 0}
+    - target: {fileID: 8589331480251356290, guid: c522eacff944e41b0a720605d87acc70, type: 3}
+      propertyPath: m_LocalScale.x
+      value: 36
+      objectReference: {fileID: 0}
+    - target: {fileID: 8589331480251356290, guid: c522eacff944e41b0a720605d87acc70, type: 3}
+      propertyPath: m_LocalScale.y
+      value: 20
+      objectReference: {fileID: 0}
+    - target: {fileID: 8589331481340071965, guid: c522eacff944e41b0a720605d87acc70, type: 3}
+      propertyPath: m_LocalScale.x
+      value: 36
+      objectReference: {fileID: 0}
+    - target: {fileID: 8589331481340071965, guid: c522eacff944e41b0a720605d87acc70, type: 3}
+      propertyPath: m_LocalScale.y
+      value: 20
+      objectReference: {fileID: 0}
+    - target: {fileID: 8589331481726328536, guid: c522eacff944e41b0a720605d87acc70, type: 3}
+      propertyPath: m_LocalScale.x
+      value: 36
+      objectReference: {fileID: 0}
+    - target: {fileID: 8589331481726328536, guid: c522eacff944e41b0a720605d87acc70, type: 3}
+      propertyPath: m_LocalScale.y
+      value: 20
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: c522eacff944e41b0a720605d87acc70, type: 3}

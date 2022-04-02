@@ -5,6 +5,14 @@ using UnityEngine.SceneManagement;
 
 public class ButtonScript : MonoBehaviour
 {
+    const int STARTMENUINDEX = 0;
+    const int GAMEPLAYINDEX = 1;
+    const int OPTIONSMENUINDEX = 2;
+
+
+
+
+
     private bool Collided = false;
     private float acceleration;
     private float speedMultiplier;
@@ -21,8 +29,7 @@ public class ButtonScript : MonoBehaviour
 
         ogPosition = transform.position;
         body = GetComponent<Rigidbody2D>();
-        // Debug.Log("Start");
-        // StartCoroutine(wait());
+        
         }
 
     void FixedUpdate()
@@ -46,6 +53,9 @@ public class ButtonScript : MonoBehaviour
         else if(gameObject.tag == "Quit_Button"){
             StartCoroutine(QuitGame());
         }
+        else if(gameObject.tag == "Back_Button"){
+            StartCoroutine(BackToMainMenu());
+        }
         
     }
 
@@ -54,7 +64,7 @@ public class ButtonScript : MonoBehaviour
         // yield return new WaitUntil(() => Collided == true);
         yield return new WaitForSeconds(5);
         Debug.Log("Collided");
-        SceneManager.LoadSceneAsync(SceneManager.GetActiveScene().buildIndex + 1, LoadSceneMode.Single);
+        SceneManager.LoadSceneAsync(GAMEPLAYINDEX, LoadSceneMode.Single);
     }
 
     IEnumerator OptionsMenu()  
@@ -62,7 +72,7 @@ public class ButtonScript : MonoBehaviour
         // yield return new WaitUntil(() => Collided == true);
         yield return new WaitForSeconds(5);
         Debug.Log("Collided");
-        SceneManager.LoadSceneAsync(SceneManager.GetActiveScene().buildIndex + 2, LoadSceneMode.Single);
+        SceneManager.LoadSceneAsync(OPTIONSMENUINDEX, LoadSceneMode.Single);
     }
 
     IEnumerator QuitGame()  
@@ -70,7 +80,13 @@ public class ButtonScript : MonoBehaviour
         // yield return new WaitUntil(() => Collided == true);
         yield return new WaitForSeconds(5);
         Debug.Log("Collided");
-        UnityEditor.EditorApplication.isPlaying = false;
+        // UnityEditor.EditorApplication.isPlaying = false;
         Application.Quit();
+    }
+
+    IEnumerator BackToMainMenu(){
+        Debug.Log(SceneManager.GetActiveScene().buildIndex);
+        yield return new WaitForSeconds(5);
+        SceneManager.LoadSceneAsync(STARTMENUINDEX, LoadSceneMode.Single);
     }
 }

@@ -7,6 +7,7 @@ public class PlayerRigidBody : MonoBehaviour
 
     public Animator anim;
     Renderer rend;
+    Material material;
 
     private float screenHalfWorldUnits;
     // private float acceleration = 1500f;
@@ -29,6 +30,7 @@ public class PlayerRigidBody : MonoBehaviour
         float playerHalfWidth = transform.localScale.x / 8f;
         screenHalfWorldUnits = Camera.main.aspect * Camera.main.orthographicSize + playerHalfWidth;
         body = GetComponent<Rigidbody2D>();
+        
         
     }
 
@@ -189,10 +191,4 @@ public class PlayerRigidBody : MonoBehaviour
         }
     }
 
-    public void PrimaryColorChange(float value){
-        rend = GetComponent<Renderer>();
-        // rend.sharedMaterial.SetColor("Primary Color", new Color(value, value, value));
-        Color col = rend.sharedMaterial.GetColor("Color_69EBDFB0"); 
-        print(col);
-    }   
 }
