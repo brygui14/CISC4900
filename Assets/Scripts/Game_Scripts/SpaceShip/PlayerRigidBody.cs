@@ -1,22 +1,31 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 public class PlayerRigidBody : MonoBehaviour
 {
+    const int STARTMENUINDEX = 0;
+    const int GAMEPLAYINDEX = 1;
+    const int OPTIONSMENUINDEX = 2;
 
+
+    GameObject canvas;
     public Animator anim;
     Renderer rend;
     Material material;
-
+    private int playerScaleDivide = 8;
     private float screenHalfWorldUnits;
     // private float acceleration = 1500f;
     private float acceleration = 75f;
     private float speedMultiplier = 2;
     private float maxSpeed;
+    private float maxSpeedMultiplier = 2.5f;
     private float speed = 5;
 
     private bool isColliding;
+
+    private bool isPaused = false;
 
     Vector2 move;
     Rigidbody2D body;
@@ -27,9 +36,10 @@ public class PlayerRigidBody : MonoBehaviour
     void Awake(){
         
         anim = gameObject.GetComponent<Animator>();
-        float playerHalfWidth = transform.localScale.x / 8f;
+        float playerHalfWidth = transform.localScale.x / playerScaleDivide;
         screenHalfWorldUnits = Camera.main.aspect * Camera.main.orthographicSize + playerHalfWidth;
         body = GetComponent<Rigidbody2D>();
+        canvas = GameObject.FindGameObjectWithTag("Pause_Screen");
         
         
     }
@@ -52,16 +62,43 @@ public class PlayerRigidBody : MonoBehaviour
         
         if (Input.GetKey("space") & !isColliding){
             
-            maxSpeed = speed * 2.5f;
+            maxSpeed = speed * maxSpeedMultiplier;
             // Debug.Log(maxSpeed);
+        }
+        else if (Input.GetButtonDown("Pause")){
+            isPaused = true;
+            Time.timeScale = 0;
+        }
+        else if (Input.GetButtonDown("Resume")){
+            isPaused = false;
+            Time.timeScale = 1; 
         }
         else{
             maxSpeed = speed;
             // Debug.Log(maxSpeed);
         }
+
+        
+
+        pauseScreen();
         
         
         
+    }
+
+    void pauseScreen(){
+        if (isPaused){
+            canvas.SetActive(true);
+            if (Input.GetButtonDown("Quit")){
+                Time.timeScale = 1;
+                SceneManager.LoadSceneAsync(STARTMENUINDEX, LoadSceneMode.Single);
+            }
+        }
+        else {
+            canvas.SetActive(false);
+            
+             
+        }
     }
 
     void activateShield(){

@@ -9,6 +9,7 @@ TagManager:
   - Options_Button
   - Quit_Button
   - Back_Button
+  - Pause_Screen
   layers:
   - Default
   - TransparentFX

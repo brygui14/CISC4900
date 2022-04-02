@@ -16,13 +16,18 @@ public class SpawnAsteroidMenu : MonoBehaviour
     {
         screenHalfWorldUnits = new Vector2(Camera.main.aspect * Camera.main.orthographicSize, Camera.main.orthographicSize);
         nextTime = Time.time + timeToSpawn;
+        Debug.Log(nextTime);
+        Debug.Log(Time.time);
     }
 
     void Update(){
-        if (Input.GetMouseButtonDown(0) && Time.time > nextTime){
+        if (Input.GetButtonDown("Fire") && Time.time > nextTime){
             nextTime = Time.time + timeToSpawn;
             dropSquare();
         }
+
+        Debug.Log("Update");
+        
         destroyObjects();
     }
 
