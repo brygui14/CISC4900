@@ -8,6 +8,7 @@ public class ButtonScript : MonoBehaviour
     const int STARTMENUINDEX = 0;
     const int GAMEPLAYINDEX = 1;
     const int OPTIONSMENUINDEX = 2;
+    const int HOWTOPLAYINDEX = 3;
     private bool Collided = false;
     private float acceleration;
     private float speedMultiplier;
@@ -58,7 +59,7 @@ public class ButtonScript : MonoBehaviour
     {
         yield return new WaitForSeconds(5);
         Collided = false;
-        SceneManager.LoadSceneAsync(GAMEPLAYINDEX, LoadSceneMode.Single);
+        SceneManager.LoadSceneAsync(HOWTOPLAYINDEX, LoadSceneMode.Single);
     }
 
     IEnumerator OptionsMenu()  

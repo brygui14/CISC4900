@@ -9,17 +9,17 @@ public class FallingBlock : MonoBehaviour
     public float speed = 1000f;
     Rigidbody2D body;
     float screenHalfWorldUnits;
-    SpriteRenderer sr;
 
     void Awake()
     {
+        //Calculate Asteroid Size based on World Units
         float playerHalfWidth = transform.localScale.x;
         float aspectRatio = Camera.main.aspect;
         float orthogrpahicSize = Camera.main.orthographicSize;
-
         screenHalfWorldUnits = aspectRatio * orthogrpahicSize + playerHalfWidth;
+
+
         body = GetComponent<Rigidbody2D>();
-        sr = gameObject.GetComponent<SpriteRenderer>(); 
     }
 
     void FixedUpdate()
@@ -35,8 +35,9 @@ public class FallingBlock : MonoBehaviour
 
 
     }
+    
+    //If the asteroid's body goes outside the screenview teleport the asteroid to the other side for continoius scrolling effect
     void BoundaryCheck(float boundaryUnit){
-        // print(boundaryUnit);
         if (transform.position.x < -boundaryUnit)
         {
             transform.position = new Vector2(boundaryUnit, transform.position.y);

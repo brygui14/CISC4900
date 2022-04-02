@@ -61,7 +61,6 @@ public class PlayerRigidBody : MonoBehaviour
         
         
         if (Input.GetKey("space") & !isColliding){
-            
             maxSpeed = speed * maxSpeedMultiplier;
             // Debug.Log(maxSpeed);
         }
