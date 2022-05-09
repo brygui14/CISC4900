@@ -16,7 +16,6 @@ public class PlayerRigidBody : MonoBehaviour
     Material material;
     private int playerScaleDivide = 8;
     private float screenHalfWorldUnits;
-    // private float acceleration = 1500f;
     private float acceleration = 75f;
     private float speedMultiplier = 2;
     private float maxSpeed;
@@ -31,6 +30,12 @@ public class PlayerRigidBody : MonoBehaviour
     Rigidbody2D body;
 
     RaycastHit2D[] rays = new RaycastHit2D[90];
+
+
+    public GameObject lineOrigin, Laser;
+
+    int heal = 0;
+    bool isDestroyed = false;
     
 
     void Awake(){
@@ -40,25 +45,37 @@ public class PlayerRigidBody : MonoBehaviour
         screenHalfWorldUnits = Camera.main.aspect * Camera.main.orthographicSize + playerHalfWidth;
         body = GetComponent<Rigidbody2D>();
         canvas = GameObject.FindGameObjectWithTag("Pause_Screen");
+
+        LineRenderer tmp = Laser.GetComponent<LineRenderer>();
+        tmp.enabled = false;
         
         
     }
 
      void FixedUpdate() { 
-
+         if (isDestroyed != true){
+            projectRayCast();
+            movePlayer();
+         }
+         BoundaryCheck(screenHalfWorldUnits);
        
-        projectRayCast();
-        BoundaryCheck(screenHalfWorldUnits);
-        movePlayer();
-               
     }
 
     
     void Update()
     {
-        move = new Vector2(Input.GetAxisRaw("Horizontal"),  Input.GetAxisRaw("Vertical"));
+        if (isDestroyed != true){
+            // Debug.Log("Health: " + heal);
+            checkHealth();
+            getInputs();
+            pauseScreen();
+        }
 
         
+    }
+
+    void getInputs(){
+        move = new Vector2(Input.GetAxisRaw("Horizontal"),  Input.GetAxisRaw("Vertical"));
         
         if (Input.GetKey("space") & !isColliding){
             maxSpeed = speed * maxSpeedMultiplier;
@@ -77,12 +94,6 @@ public class PlayerRigidBody : MonoBehaviour
             // Debug.Log(maxSpeed);
         }
 
-        
-
-        pauseScreen();
-        
-        
-        
     }
 
     void pauseScreen(){
@@ -101,7 +112,7 @@ public class PlayerRigidBody : MonoBehaviour
     }
 
     void activateShield(){
-        anim.Play("Shield");
+        anim.Play("shield");
     }
 
     void movePlayer(){
@@ -120,7 +131,6 @@ public class PlayerRigidBody : MonoBehaviour
         else{
             body.AddForce(move * acceleration * Time.fixedDeltaTime, ForceMode2D.Impulse);
         }
-        // body.AddForce(move * acceleration * Time.fixedDeltaTime);
     }
 
     void projectRayCast(){
@@ -132,10 +142,12 @@ public class PlayerRigidBody : MonoBehaviour
 
         for (int i = 45; i < 135; ++i){
             Vector3 point = new Vector3(Mathf.Cos(Mathf.Deg2Rad * i), Mathf.Sin(Mathf.Deg2Rad * i), 0);
+            
             rays[index] = Physics2D.Raycast(transform.position, point, 100);
+            
 
-            if (rays[index].collider != null){
-                float dist = Vector3.Distance(transform.position, rays[index].point);
+            if (rays[index].collider != null && rays[index].collider.GetComponent<FallingBlock>().isDestroyed != true){
+                float dist = Vector2.Distance(transform.position, rays[index].point);
                 if (dist < shortestDist){
                     // Debug.DrawLine(transform.position, rays[index].point, Color.yellow);
                     shortestDist = dist;
@@ -162,14 +174,9 @@ public class PlayerRigidBody : MonoBehaviour
                 isColliding = false;
             }
         }
-        
-        // Debug.DrawLine(transform.position, rays[distIndex + 1].point, Color.magenta);
+        // Debug.DrawLine(transform.position, rays[distIndex].point, Color.yellow);
+        // Debug.Log("Raycast Point: " + rays[distIndex].point);
         setAngle(distIndex, 4, 2);
-
-
-        // print("Dist Index: " + distIndex);
-        // print(rays[distIndex].point);
-        // print(findAngle(body.position, rays[distIndex].point));
     }
 
     void setAngle(int index, int angleThreshold, int angleSmoothness){
@@ -186,7 +193,9 @@ public class PlayerRigidBody : MonoBehaviour
             else {
                 transform.rotation = Quaternion.Euler(0, 0, 180);
             }
-            // print("Current Angle: " + currentAngle + "\nAngle: " + angle);d
+
+
+            deactivateLaser();
         }
         else{
 
@@ -204,6 +213,12 @@ public class PlayerRigidBody : MonoBehaviour
             else{
                 transform.rotation = Quaternion.Euler(0, 0, angle);
             }
+
+            activateLaser(rays[index].point);
+            passHitData(index);
+
+
+
         }
     }
 
@@ -216,7 +231,7 @@ public class PlayerRigidBody : MonoBehaviour
     }
 
     void BoundaryCheck(float boundaryUnit){
-        // print(boundaryUnit);
+        // Debug.Log(boundaryUnit);
         if (transform.position.x < -boundaryUnit)
         {
             transform.position = new Vector2(boundaryUnit, transform.position.y);
@@ -225,6 +240,61 @@ public class PlayerRigidBody : MonoBehaviour
         {
             transform.position = new Vector2(-boundaryUnit, transform.position.y);
         }
+    }
+
+
+    void activateLaser(Vector2 point){
+
+        LineRenderer temp = Laser.GetComponent<LineRenderer>();
+        // Debug.Log("Laser Point: " + point);
+        temp.SetPosition(0, new Vector3(transform.position.x, transform.position.y, 0));
+        temp.SetPosition(1, new Vector3(point.x, point.y, 0));
+
+        temp.enabled = true;
+    }
+
+    void passHitData(int index){
+        RaycastHit2D hit = rays[index];
+        if (hit.collider != null && hit.collider.tag == "Asteroids"){
+            hit.transform.SendMessage("LaserHit");
+        }
+    }
+
+    void deactivateLaser(){
+        LineRenderer temp = Laser.GetComponent<LineRenderer>();
+        temp.enabled = false;
+    }
+
+    void OnCollisionEnter2D(Collision2D other) {
+        if (other.gameObject.tag == "Asteroids"){
+            heal -= 5;
+        }
+    }
+
+    public void increaseHealth(int value){
+        if (heal + value <= 95){
+            heal += value;
+        }
+    }
+
+    public void decreaseHealth(int value){
+        heal -= value;
+    }
+
+    public void checkHealth(){
+        if (heal < 0){
+            isDestroyed = true;
+            anim.Play("SpaceShipExplosion");
+            GameObject.Find("Laser").gameObject.SetActive(false);
+        }
+    }
+
+    public void destroy(){
+        Destroy(gameObject);
+    }
+
+    public int gethealth(){
+        return heal;
     }
 
 }

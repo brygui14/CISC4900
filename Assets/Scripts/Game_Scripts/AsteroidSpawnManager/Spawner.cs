@@ -18,6 +18,8 @@ public class Spawner : MonoBehaviour
     Vector2 screenHalfWorldUnits;
     List<GameObject> spawns = new List<GameObject>();
 
+    public GameObject player;
+
 
     void Start()
     {
@@ -31,6 +33,7 @@ public class Spawner : MonoBehaviour
         // print(obj);
 
         // print(temp);
+        
     }
 
     // Update is called once per frame
@@ -57,15 +60,19 @@ public class Spawner : MonoBehaviour
     void destroyObjects()
     {
         for (int i = 0; i < spawns.Count; i++){
-            if (spawns[i].transform.position.y < -screenHalfWorldUnits.y - spawns[i].transform.localScale.y)
-            {
-                Destroy(spawns[i]);
+            if (spawns[i] == null){
                 spawns.RemoveAt(i);
             }
+            else{
+                if (spawns[i].transform.position.y < -screenHalfWorldUnits.y - spawns[i].transform.localScale.y && spawns[i].GetComponent<FallingBlock>().isDestroyed != true){
+                    player.SendMessage("decreaseHealth", 20);
+                    Destroy(spawns[i]);
+                    spawns.RemoveAt(i);
+                }
+            }
         }
-
-        
     }
+       
 
     void initalizeDict()
     {

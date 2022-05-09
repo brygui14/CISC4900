@@ -7,8 +7,12 @@ public class FallingBlock : MonoBehaviour
 
     Vector2 move;
     public float speed = 1000f;
+    private float health = 100;
     Rigidbody2D body;
     float screenHalfWorldUnits;
+    Animator anim;
+
+    public bool isDestroyed = false;
 
     void Awake()
     {
@@ -17,8 +21,7 @@ public class FallingBlock : MonoBehaviour
         float aspectRatio = Camera.main.aspect;
         float orthogrpahicSize = Camera.main.orthographicSize;
         screenHalfWorldUnits = aspectRatio * orthogrpahicSize + playerHalfWidth;
-
-
+        anim = GetComponent<Animator>();
         body = GetComponent<Rigidbody2D>();
     }
 
@@ -31,8 +34,11 @@ public class FallingBlock : MonoBehaviour
         move = Vector2.down;
         BoundaryCheck(screenHalfWorldUnits);
 
-        
-
+        if (health < 0 && isDestroyed != true){
+            isDestroyed = true;
+            GetComponent<CircleCollider2D>().isTrigger = true;
+            anim.Play("Explosion");
+        }
 
     }
     
@@ -46,5 +52,17 @@ public class FallingBlock : MonoBehaviour
         {
             transform.position = new Vector2(-boundaryUnit, transform.position.y);
         }
+    }
+
+    void LaserHit(){
+        // Debug.Log("I was hit by laser");
+        health -= 1;
+        // Debug.Log(health);
+    }
+
+    void destroy(){
+        GameObject player = GameObject.Find("spaceship_4");
+        player.SendMessage("increaseHealth", 5);
+        Destroy(gameObject);
     }
 }

@@ -9,6 +9,7 @@ public class ButtonScript : MonoBehaviour
     const int GAMEPLAYINDEX = 1;
     const int OPTIONSMENUINDEX = 2;
     const int HOWTOPLAYINDEX = 3;
+    const int HIGHSCORESINDEX = 4;
     private bool Collided = false;
     private float acceleration;
     private float speedMultiplier;
@@ -52,6 +53,9 @@ public class ButtonScript : MonoBehaviour
         else if(gameObject.tag == "Back_Button"){
             StartCoroutine(BackToMainMenu());
         }
+        else if(gameObject.tag == "Scores_Button"){
+            StartCoroutine(LoadHighScores());
+        }
         
     }
 
@@ -80,5 +84,11 @@ public class ButtonScript : MonoBehaviour
         yield return new WaitForSeconds(5);
         Collided = false;
         SceneManager.LoadSceneAsync(STARTMENUINDEX, LoadSceneMode.Single);
+    }
+
+    IEnumerator LoadHighScores(){
+        yield return new WaitForSeconds(5);
+        Collided = false;
+        SceneManager.LoadSceneAsync(HIGHSCORESINDEX, LoadSceneMode.Single);
     }
 }

@@ -10,6 +10,8 @@ TagManager:
   - Quit_Button
   - Back_Button
   - Pause_Screen
+  - Canvas
+  - Scores_Button
   layers:
   - Default
   - TransparentFX
