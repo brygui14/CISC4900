@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 
-public class ScoreKeeper : MonoBehaviour
+public class HealthBarScript : MonoBehaviour
 {
     public Slider slider;
 
@@ -15,7 +15,9 @@ public class ScoreKeeper : MonoBehaviour
     }
 
     void Update() {
-        slider.value = player.GetComponent<PlayerRigidBody>().gethealth();
+        if (player != null){
+            slider.value = player.GetComponent<PlayerRigidBody>().gethealth();
+        }
     }
 
 }

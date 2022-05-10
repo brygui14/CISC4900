@@ -8,7 +8,9 @@ public class FallingBlock : MonoBehaviour
     Vector2 move;
     public float speed = 1000f;
     private float health = 100;
+    float value;
     Rigidbody2D body;
+    GameObject score;
     float screenHalfWorldUnits;
     Animator anim;
 
@@ -23,6 +25,10 @@ public class FallingBlock : MonoBehaviour
         screenHalfWorldUnits = aspectRatio * orthogrpahicSize + playerHalfWidth;
         anim = GetComponent<Animator>();
         body = GetComponent<Rigidbody2D>();
+    }
+
+    void Start(){
+        score = GameObject.Find("Score");
     }
 
     void FixedUpdate()
@@ -57,12 +63,14 @@ public class FallingBlock : MonoBehaviour
     void LaserHit(){
         // Debug.Log("I was hit by laser");
         health -= 1;
+        score.SendMessage("increaseScore", 1);
         // Debug.Log(health);
     }
 
     void destroy(){
         GameObject player = GameObject.Find("spaceship_4");
         player.SendMessage("increaseHealth", 5);
+
         Destroy(gameObject);
     }
 }

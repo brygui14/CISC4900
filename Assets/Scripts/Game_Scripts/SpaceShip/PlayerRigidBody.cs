@@ -8,6 +8,7 @@ public class PlayerRigidBody : MonoBehaviour
     const int STARTMENUINDEX = 0;
     const int GAMEPLAYINDEX = 1;
     const int OPTIONSMENUINDEX = 2;
+    const int GAMEOVERINDEX = 5;
 
 
     GameObject canvas;
@@ -15,7 +16,7 @@ public class PlayerRigidBody : MonoBehaviour
     Renderer rend;
     Material material;
     private int playerScaleDivide = 8;
-    private float screenHalfWorldUnits;
+    private Vector2 screenHalfWorldUnits;
     private float acceleration = 75f;
     private float speedMultiplier = 2;
     private float maxSpeed;
@@ -32,7 +33,7 @@ public class PlayerRigidBody : MonoBehaviour
     RaycastHit2D[] rays = new RaycastHit2D[90];
 
 
-    public GameObject lineOrigin, Laser;
+    public GameObject lineOrigin, Laser, Arrow;
 
     int heal = 0;
     bool isDestroyed = false;
@@ -42,7 +43,7 @@ public class PlayerRigidBody : MonoBehaviour
         
         anim = gameObject.GetComponent<Animator>();
         float playerHalfWidth = transform.localScale.x / playerScaleDivide;
-        screenHalfWorldUnits = Camera.main.aspect * Camera.main.orthographicSize + playerHalfWidth;
+        screenHalfWorldUnits = new Vector2(Camera.main.aspect * Camera.main.orthographicSize, Camera.main.orthographicSize);
         body = GetComponent<Rigidbody2D>();
         canvas = GameObject.FindGameObjectWithTag("Pause_Screen");
 
@@ -52,12 +53,16 @@ public class PlayerRigidBody : MonoBehaviour
         
     }
 
+    void Start(){
+        Arrow = GameObject.Find("Arrow");
+    }
+
      void FixedUpdate() { 
          if (isDestroyed != true){
             projectRayCast();
             movePlayer();
          }
-         BoundaryCheck(screenHalfWorldUnits);
+         BoundaryCheck();
        
     }
 
@@ -230,16 +235,27 @@ public class PlayerRigidBody : MonoBehaviour
         return (int)angle;
     }
 
-    void BoundaryCheck(float boundaryUnit){
+    void BoundaryCheck(){
         // Debug.Log(boundaryUnit);
-        if (transform.position.x < -boundaryUnit)
+        if (transform.position.x < -screenHalfWorldUnits.x)
         {
-            transform.position = new Vector2(boundaryUnit, transform.position.y);
+            transform.position = new Vector2(screenHalfWorldUnits.x, transform.position.y);
         }
-        else if (transform.position.x > boundaryUnit)
+        else if (transform.position.x > screenHalfWorldUnits.x)
         {
-            transform.position = new Vector2(-boundaryUnit, transform.position.y);
+            transform.position = new Vector2(-screenHalfWorldUnits.x, transform.position.y);
         }
+        else if (transform.position.y < -screenHalfWorldUnits.y - transform.localScale.y){
+            transform.position = new Vector2(transform.position.x, -screenHalfWorldUnits.y - transform.localScale.y);
+            Arrow.SetActive(true);
+        }
+        else if (transform.position.y < -screenHalfWorldUnits.y){
+            Arrow.SetActive(true);
+        }
+        else if(transform.position.y > -screenHalfWorldUnits.y - transform.localScale.y){
+            Arrow.SetActive(false);
+        }
+
     }
 
 
@@ -290,6 +306,7 @@ public class PlayerRigidBody : MonoBehaviour
     }
 
     public void destroy(){
+        SceneManager.LoadSceneAsync(GAMEOVERINDEX, LoadSceneMode.Single);
         Destroy(gameObject);
     }
 

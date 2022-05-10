@@ -14,6 +14,7 @@ public class SpawnAsteroidMenu : MonoBehaviour
    
     void Start()
     {
+        PlayerPrefs.SetFloat("Score", 0);
         screenHalfWorldUnits = new Vector2(Camera.main.aspect * Camera.main.orthographicSize, Camera.main.orthographicSize);
         nextTime = Time.time + timeToSpawn;
         Debug.Log(nextTime);
@@ -50,7 +51,9 @@ public class SpawnAsteroidMenu : MonoBehaviour
             position.x = screenHalfWorldUnits.x + transform.localScale.x;
         }
         if (Camera.main.ScreenToWorldPoint(Input.mousePosition).y < 0){
-            position.y = screenHalfWorldUnits.y - 2;
+            // position.y = screenHalfWorldUnits.y - 2;
+            position.y = 0;
+            // position.x = 25;
         }
         Debug.Log(position);
         position = RectTransformUtility.WorldToScreenPoint(Camera.main, position);
