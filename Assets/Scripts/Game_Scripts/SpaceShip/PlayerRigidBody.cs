@@ -13,6 +13,8 @@ public class PlayerRigidBody : MonoBehaviour
 
     GameObject canvas;
     public Animator anim;
+    public AudioClip audioSource;
+
     Renderer rend;
     Material material;
     private int playerScaleDivide = 8;
@@ -33,7 +35,7 @@ public class PlayerRigidBody : MonoBehaviour
     RaycastHit2D[] rays = new RaycastHit2D[90];
 
 
-    public GameObject lineOrigin, Laser, Arrow;
+    public GameObject lineOrigin, Laser, Arrow, earth;
 
     int heal = 0;
     bool isDestroyed = false;
@@ -55,6 +57,8 @@ public class PlayerRigidBody : MonoBehaviour
 
     void Start(){
         Arrow = GameObject.Find("Arrow");
+        GetComponent<AudioSource> ().playOnAwake = false;
+        GetComponent<AudioSource> ().clip = audioSource;
     }
 
      void FixedUpdate() { 
@@ -294,11 +298,15 @@ public class PlayerRigidBody : MonoBehaviour
     }
 
     public void decreaseHealth(int value){
+        GetComponent<AudioSource>().Play(0);
+        earth.SendMessage("Tremble");
         heal -= value;
     }
 
     public void checkHealth(){
         if (heal < 0){
+
+            earth.SendMessage("playAnim");
             isDestroyed = true;
             anim.Play("SpaceShipExplosion");
             GameObject.Find("Laser").gameObject.SetActive(false);

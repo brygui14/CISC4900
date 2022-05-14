@@ -13,6 +13,7 @@ public class FallingBlock : MonoBehaviour
     GameObject score;
     float screenHalfWorldUnits;
     Animator anim;
+    public AudioClip audioSource;
 
     public bool isDestroyed = false;
 
@@ -29,6 +30,8 @@ public class FallingBlock : MonoBehaviour
 
     void Start(){
         score = GameObject.Find("Score");
+        GetComponent<AudioSource> ().playOnAwake = false;
+        GetComponent<AudioSource> ().clip = audioSource;
     }
 
     void FixedUpdate()
@@ -41,6 +44,7 @@ public class FallingBlock : MonoBehaviour
         BoundaryCheck(screenHalfWorldUnits);
 
         if (health < 0 && isDestroyed != true){
+            GetComponent<AudioSource>().Play(0);
             isDestroyed = true;
             GetComponent<CircleCollider2D>().isTrigger = true;
             anim.Play("Explosion");
