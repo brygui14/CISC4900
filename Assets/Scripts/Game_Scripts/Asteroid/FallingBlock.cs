@@ -6,8 +6,10 @@ public class FallingBlock : MonoBehaviour
 {
 
     Vector2 move;
-    public float speed = 1000f;
+    float speed = 1000f;
+    float acceleration = 1f;
     private float health = 100;
+    private float increaseHealth;
     float value;
     Rigidbody2D body;
     GameObject score;
@@ -36,7 +38,7 @@ public class FallingBlock : MonoBehaviour
 
     void FixedUpdate()
     {
-        body.AddForce(move * speed * Time.deltaTime);
+        body.AddForce(move * speed * acceleration * Time.fixedDeltaTime);
     }
     void Update()
     {
@@ -64,17 +66,29 @@ public class FallingBlock : MonoBehaviour
         }
     }
 
-    void LaserHit(){
+    void LaserHit(float damage){
         // Debug.Log("I was hit by laser");
-        health -= 1;
+        health -= damage;
         score.SendMessage("increaseScore", 1);
         // Debug.Log(health);
     }
 
     void destroy(){
         GameObject player = GameObject.Find("spaceship_4");
-        player.SendMessage("increaseHealth", 5);
+        player.SendMessage("increaseHealth", increaseHealth);
 
         Destroy(gameObject);
+    }
+
+    public void setHealth(float heal){
+        health = heal;
+    }
+
+    public void setAcceleration(float accel){
+        acceleration = accel;
+    }
+
+    public void setIncreaseHealth(float units){
+        increaseHealth = units;
     }
 }

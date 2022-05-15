@@ -23,7 +23,9 @@ public class PlayerRigidBody : MonoBehaviour
     private float speedMultiplier = 2;
     private float maxSpeed;
     private float maxSpeedMultiplier = 2.5f;
-    private float speed = 5;
+    private float speed = 7;
+    private float laserDistance;
+    private float damage;
 
     private bool isColliding;
 
@@ -32,12 +34,12 @@ public class PlayerRigidBody : MonoBehaviour
     Vector2 move;
     Rigidbody2D body;
 
-    RaycastHit2D[] rays = new RaycastHit2D[90];
+    RaycastHit2D[] rays = new RaycastHit2D[40];
 
 
     public GameObject lineOrigin, Laser, Arrow, earth;
 
-    int heal = 0;
+    int heal = 100;
     bool isDestroyed = false;
     
 
@@ -146,13 +148,13 @@ public class PlayerRigidBody : MonoBehaviour
         int index = 0;
         int distIndex = -1;
 
-        float shortestDist = 100;
+        float shortestDist = 25;
    
 
-        for (int i = 45; i < 135; ++i){
+        for (int i = 70; i < 110; ++i){
             Vector3 point = new Vector3(Mathf.Cos(Mathf.Deg2Rad * i), Mathf.Sin(Mathf.Deg2Rad * i), 0);
             
-            rays[index] = Physics2D.Raycast(transform.position, point, 100);
+            rays[index] = Physics2D.Raycast(transform.position, point, laserDistance);
             
 
             if (rays[index].collider != null && rays[index].collider.GetComponent<FallingBlock>().isDestroyed != true){
@@ -163,13 +165,13 @@ public class PlayerRigidBody : MonoBehaviour
                     distIndex = index;
                     
                 }
-            //     else{
-            //         Debug.DrawLine(transform.position, rays[index].point, Color.red);
-            //     }
-            // }
+                else{
+                    Debug.DrawLine(transform.position, rays[index].point, Color.red);
+                }
+            }
             // else{
             //     Debug.DrawLine(transform.position, transform.position + point * 100, Color.green);
-            }
+            // }
             index++;
 
         }
@@ -240,7 +242,7 @@ public class PlayerRigidBody : MonoBehaviour
     }
 
     void BoundaryCheck(){
-        // Debug.Log(boundaryUnit);
+        // Debug.Log(screenHalfWorldUnits);
         if (transform.position.x < -screenHalfWorldUnits.x)
         {
             transform.position = new Vector2(screenHalfWorldUnits.x, transform.position.y);
@@ -259,6 +261,9 @@ public class PlayerRigidBody : MonoBehaviour
         else if(transform.position.y > -screenHalfWorldUnits.y - transform.localScale.y){
             Arrow.SetActive(false);
         }
+        if (transform.position.y > screenHalfWorldUnits.y - transform.localScale.y){
+            transform.position = new Vector2(transform.position.x, screenHalfWorldUnits.y - transform.localScale.y);
+        }
 
     }
 
@@ -276,7 +281,7 @@ public class PlayerRigidBody : MonoBehaviour
     void passHitData(int index){
         RaycastHit2D hit = rays[index];
         if (hit.collider != null && hit.collider.tag == "Asteroids"){
-            hit.transform.SendMessage("LaserHit");
+            hit.transform.SendMessage("LaserHit", damage);
         }
     }
 
@@ -320,6 +325,14 @@ public class PlayerRigidBody : MonoBehaviour
 
     public int gethealth(){
         return heal;
+    }
+
+    public void setLaserDistance(float dist){
+        laserDistance = dist;
+    }
+
+    public void setDamage(float dam){
+        damage = dam;
     }
 
 }
